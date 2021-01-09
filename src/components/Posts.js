@@ -21,10 +21,10 @@ class Posts extends Component {
             return (
                 <div key={post.id}>
                     <div>
-                        <p>{post.title}</p>
+                        <h4>{post.title}</h4>
                         <p>{post.body}</p>
                     </div>
-                    <Link to={'/'}><button>Details</button></Link>
+                    <Link to={'/' + post.id}><button>Details</button></Link>
                 </div>
             )
         })
