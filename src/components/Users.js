@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 class Users extends Component {
@@ -26,9 +27,8 @@ class Users extends Component {
             <p><span>Phone: </span>{user.phone}</p>
             <p><span>Website: </span>{user.website}</p>
             <p><span>Company: </span>{user.company.name}, {user.company.catchPhrase}, {user.company.bs}</p>
-            <button>Posts</button>
-
-          </div>
+          </div> 
+          <Link to={'posts/userId='+user.id}><button>Posts</button></Link>
         </div>
       )
     })
