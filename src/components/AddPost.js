@@ -1,40 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { updatePost } from '../actions/postsAction';
-import axios from 'axios';
+import { addPost } from '../actions/postsAction';
 
-
-class EditPost extends Component {
+class AddPost extends Component {
     state = {
         title: '',
         body: '',
-        userId: ' '
+        userId: this.props.location.pathname.split('=')[1]
+    }
 
-    }
-    componentDidMount() {
-        let id = this.props.match.params.post_id;
-        axios.get('https://jsonplaceholder.typicode.com/posts/' + id)
-            .then(res => {
-                this.setState({
-                    title: res.data.title,
-                    body: res.data.body,
-                    userId: res.data.userId
-                });
-            });
-    }
     handleTextChange = (e) => this.setState({ [e.target.name]: e.target.value })
+
     handleOnSubmit = event => {
-        let id = this.props.match.params.post_id;
         event.preventDefault();
-        this.props.updatePost(this.state, id);
-        console.log(this.state)
+        this.props.addPost(this.state);
         this.setState({
             title: '',
             body: '',
+            userId: this.props.location.pathname.split('=')[1]
         });
-        console.log(this.state)
-        // this.props.history.goBack()
+        this.props.history.goBack()
     }
 
     render() {
@@ -50,7 +36,7 @@ class EditPost extends Component {
                         <textarea onChange={this.handleTextChange} value={this.state.body} name="body" placeholder="Body" />
                     </div>
                     <div >
-                        <Link to={'/posts/userId=' + this.state.userId}><button type="submit">Update Post</button></Link>
+                        <button type="submit">Add Post</button>
                     </div>
                 </form>
             </div>
@@ -58,4 +44,4 @@ class EditPost extends Component {
     }
 }
 
-export default connect(null, { updatePost })(EditPost);
+export default connect(null, { addPost })(AddPost);

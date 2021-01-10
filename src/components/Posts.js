@@ -4,11 +4,13 @@ import { getPosts } from '../actions/postsAction';
 import { connect } from 'react-redux';
 
 class Posts extends Component {
+
     componentDidMount() {
         let id = this.props.location.pathname.split('=')[1];
         this.props.getPosts(id);
     }
     render() {
+        let id = this.props.location.pathname.split('=')[1];
         const posts = this.props.posts;
         let postsList = 'No Posts';
         if (posts) {
@@ -29,7 +31,7 @@ class Posts extends Component {
         return (
             <div>
                 <div className="container">
-                    <button>Add new</button>
+                    <Link to={'/addpost/userId=' + id}><button>Add new</button></Link>
                     {postsList}
                 </div>
             </div>
