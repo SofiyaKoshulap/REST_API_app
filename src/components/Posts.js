@@ -1,33 +1,30 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import { getPosts } from '../actions/postsAction';
+import { connect } from 'react-redux';
 
 class Posts extends Component {
-    state = {
-        posts: []
-    }
     componentDidMount() {
         let id = this.props.location.pathname.split('=')[1];
-        axios.get('https://jsonplaceholder.typicode.com/posts?userId=' + id)
-            .then(res => {
-                this.setState({
-                    posts: res.data
-                });
-            })
+        this.props.getPosts(id);
     }
     render() {
-        const { posts } = this.state
-        const postsList = posts.map(post => {
-            return (
-                <div key={post.id}>
-                    <div>
-                        <h4>{post.title}</h4>
-                        <p>{post.body}</p>
+        const posts = this.props.posts;
+        let postsList = 'No Posts';
+        if (posts) {
+            postsList = posts.map(post => {
+                return (
+                    <div key={post.id}>
+                        <div>
+                            <h4>{post.title}</h4>
+                            <p>{post.body}</p>
+                        </div>
+                        <Link to={'/post/' + post.id}><button>Details</button></Link>
                     </div>
-                    <Link to={'/' + post.id}><button>Details</button></Link>
-                </div>
-            )
-        })
+                )
+
+            });
+        }
 
         return (
             <div>
@@ -40,4 +37,10 @@ class Posts extends Component {
     }
 }
 
-export default Posts
+const mapStateToProps = state => {
+    return {
+        posts: state.posts.posts
+    }
+}
+
+export default connect(mapStateToProps, { getPosts })(Posts);

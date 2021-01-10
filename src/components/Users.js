@@ -1,37 +1,34 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import { getUsers } from '../actions/usersAction';
+import { connect } from 'react-redux';
 
 class Users extends Component {
-  state = {
-    users: []
-  }
   componentDidMount() {
-    axios.get('https://jsonplaceholder.typicode.com/users')
-      .then(res => {
-        this.setState({
-          users: res.data
-        });
-      })
+    this.props.getUsers();
   }
   render() {
-    const { users } = this.state
-    const usersList = users.map(user => {
-      return (
-        <div key={user.id}>
-          <div>
-            <p><span>Name: </span>{user.name}</p>
-            <p><span>Username: </span>{user.username}</p>
-            <p><span>Email: </span>{user.email}</p>
-            <p><span>Address: </span>{user.address.street}, {user.address.suite}, {user.address.city}, {user.address.zipcode}</p>
-            <p><span>Phone: </span>{user.phone}</p>
-            <p><span>Website: </span>{user.website}</p>
-            <p><span>Company: </span>{user.company.name}, {user.company.catchPhrase}, {user.company.bs}</p>
-          </div> 
-          <Link to={'posts/userId='+user.id}><button>Posts</button></Link>
-        </div>
-      )
-    })
+    const users = this.props.users;
+    let usersList = 'No Users';
+    if (users) {
+      usersList = users.map(user => {
+        return (
+          <div key={user.id}>
+            <div>
+              <p><span>Name: </span>{user.name}</p>
+              <p><span>Username: </span>{user.username}</p>
+              <p><span>Email: </span>{user.email}</p>
+              <p><span>Address: </span>{user.address.street}, {user.address.suite}, {user.address.city}, {user.address.zipcode}</p>
+              <p><span>Phone: </span>{user.phone}</p>
+              <p><span>Website: </span>{user.website}</p>
+              <p><span>Company: </span>{user.company.name}, {user.company.catchPhrase}, {user.company.bs}</p>
+            </div>
+            <Link to={'posts/userId=' + user.id}><button>Posts</button></Link>
+          </div>
+        )
+
+      });
+    }
 
     return (
       <div>
@@ -39,8 +36,15 @@ class Users extends Component {
           {usersList}
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default Users
+const mapStateToProps = state => {
+  return {
+    users: state.users.users
+  }
+}
+
+export default connect(mapStateToProps, { getUsers })(Users);
+

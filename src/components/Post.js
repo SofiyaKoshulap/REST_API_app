@@ -1,57 +1,57 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { getPost } from '../actions/postAction';
+import { getComments } from '../actions/commentsAction';
+import { deletePost } from '../actions/postsAction';
+import { connect } from 'react-redux';
 
 class Post extends Component {
-    state = {
-        post: {},
-        comments: []
-    }
+
     componentDidMount() {
         let id = this.props.match.params.post_id;
-        axios.get('https://jsonplaceholder.typicode.com/posts/' + id)
-            .then(res => {
-                this.setState({
-                    post: res.data
-                });
-            });
-        axios.get('https://jsonplaceholder.typicode.com/comments?postId=' + id)
-            .then(res => {
-                this.setState({
-                    comments: res.data
-                });
-            });
+        this.props.getPost(id);
+        this.props.getComments(id);
 
     }
+    delete = postId => {
+        this.props.deletePost(postId);
+        // this.props.history.goBack()
+    }
     render() {
-        const { comments } = this.state
-        const post = (
-            <div>
-                <h4>{this.state.post.title}</h4>
-                <p>{this.state.post.body}</p>
-                <button>Edit</button>
-                <button>Delete</button>
-            </div>
-        );
+        const post = this.props.post;
+        const comments = this.props.comments;
 
-        const commentsList = comments.map(comment => {
-            return (
-                <div key={comment.id}>
-                    <div>
-                        <h4>{comment.name}</h4>
-                        <p>{comment.email}</p>
-                        <p>{comment.body}</p>
+        let commentsList = 'No comments';
+        if (comments) {
+            commentsList = comments.map(comment => {
+                return (
+                    <div key={comment.id}>
+                        <div>
+                            <h4>{comment.name}</h4>
+                            <p>{comment.email}</p>
+                            <p>{comment.body}</p>
+                        </div>
                     </div>
+                )
+            });
+        }
+
+        let postShow = 'Loading...'
+        if (post) {
+            postShow = (
+                <div>
+                    <h4>{post.title}</h4>
+                    <p>{post.body}</p>
+                    <Link to={'/edit/' + post.id}><button>Edit</button></Link>
+                    <Link to={'/posts/userId=' + post.userId}><button onClick={this.delete.bind(this, post.id)}>Delete</button></Link>
                 </div>
-            )
-        });
-
-
-
+            );
+        }
 
         return (
             <div>
                 <div className="container">
-                    {post}
+                    {postShow}
                     <div>
                         {commentsList}
                     </div>
@@ -60,5 +60,11 @@ class Post extends Component {
         )
     }
 }
+const mapStateToProps = state => {
+    return {
+        post: state.post.post,
+        comments: state.comments.comments
+    }
+}
 
-export default Post
+export default connect(mapStateToProps, { getPost, getComments, deletePost })(Post);
