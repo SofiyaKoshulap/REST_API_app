@@ -4,12 +4,13 @@ import { getPost } from '../actions/postAction';
 import { getComments } from '../actions/commentsAction';
 import { deletePost } from '../actions/postsAction';
 import { connect } from 'react-redux';
+import '../styles/postStyle.css'
 
 class Post extends Component {
 
     componentDidMount() {
         let id = this.props.match.params.post_id;
-        this.props.getPost(id);
+        // this.props.getPost(id);
         this.props.getComments(id);
 
     }
@@ -20,12 +21,12 @@ class Post extends Component {
     render() {
         const post = this.props.post;
         const comments = this.props.comments;
-
+        console.log(post)
         let commentsList = 'No comments';
         if (comments) {
             commentsList = comments.map(comment => {
                 return (
-                    <div key={comment.id}>
+                    <div key={comment.id} className='comment-conteiner'>
                         <div>
                             <h4>{comment.name}</h4>
                             <p>{comment.email}</p>
@@ -39,7 +40,7 @@ class Post extends Component {
         let postShow = 'Loading...'
         if (post) {
             postShow = (
-                <div>
+                <div className='post-conteiner'>
                     <h4>{post.title}</h4>
                     <p>{post.body}</p>
                     <Link to={'/edit/' + post.id}><button>Edit</button></Link>
@@ -52,7 +53,8 @@ class Post extends Component {
             <div>
                 <div className="container">
                     {postShow}
-                    <div>
+                    <div className='comments-conteiner'>
+                        <h2>Comments</h2>
                         {commentsList}
                     </div>
                 </div>

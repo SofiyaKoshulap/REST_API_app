@@ -7,11 +7,7 @@ const postsReducer = (state = {}, action) => {
             return { ...state, posts };
         case "ADD_POST":
             const post = state.posts.concat(action.payload);
-            return {...state, posts};
-        case 'UPDATE_CONTACT':
-           
-            const postUpdate = state.posts.map(post => post.id === action.payload.id ? post=action.payload : post)
-            return {...state, postUpdate};
+            return { ...state, post };
         default:
             return state;
     }

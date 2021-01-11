@@ -1,0 +1,17 @@
+.user-conteiner{
+    margin: 30px auto ;
+    padding: 10px 30px;
+    max-width: 800px;
+    box-shadow: 5px 5px 5px 5px darkgrey;
+    background-color:#fff
+}
+
+.user-conteiner span{
+    font-size:20px;
+    font-weight: bold;
+}
+
+button{
+    padding: 5px 25px;
+    font-size: 14px;
+}

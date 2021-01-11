@@ -8,10 +8,10 @@ import Posts from './components/Posts';
 import AddPost from './components/AddPost';
 import Post from './components/Post';
 import EditPost from './components/EditPost';
-import rootReducer from './reducers';
+import index from './reducers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(index, composeEnhancers(applyMiddleware(thunk)));
 
 function App() {
   return (

@@ -1,0 +1,16 @@
+.form-conteiner{
+    margin: 30px auto ;
+    padding: 10px 30px;
+    max-width: 800px;
+    box-shadow: 5px 5px 5px 5px darkgrey;
+    background-color:#fff
+}
+input[type=text],textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

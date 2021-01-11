@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { addPost } from '../actions/postsAction';
+import '../styles/formStyle.css'
 
 class AddPost extends Component {
     state = {
@@ -15,26 +16,18 @@ class AddPost extends Component {
     handleOnSubmit = event => {
         event.preventDefault();
         this.props.addPost(this.state);
-        this.setState({
-            title: '',
-            body: '',
-            userId: this.props.location.pathname.split('=')[1]
-        });
         this.props.history.goBack()
     }
 
     render() {
         return (
-            <div className="form-container">
+            <div className="form-conteiner">
+                <h2>Add new post</h2>
                 <form onSubmit={this.handleOnSubmit}>
-                    <div >
-                        <label>Title</label>
-                        <input onChange={this.handleTextChange} value={this.state.title} type="text" name="title" placeholder="Title" />
-                    </div>
-                    <div >
-                        <label>Body</label>
-                        <textarea onChange={this.handleTextChange} value={this.state.body} name="body" placeholder="Body" />
-                    </div>
+                    <input onChange={this.handleTextChange} value={this.state.title} type="text" name="title" placeholder="Title" />
+
+                    <textarea onChange={this.handleTextChange} value={this.state.body} name="body" placeholder="Body" rows='20' />
+
                     <div >
                         <button type="submit">Add Post</button>
                     </div>

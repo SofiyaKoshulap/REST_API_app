@@ -1,0 +1,15 @@
+.posts-conteiner{
+    margin: 30px auto ;
+    padding: 10px 30px;
+    max-width: 800px;
+    box-shadow: 5px 5px 5px 5px darkgrey;
+    background-color:#fff
+}
+
+#add-button{
+    margin-right: 30px;
+    float: right;
+    border-style: none;
+    box-shadow: 5px 5px 5px 5px darkgrey;
+    background-color:#fff
+}

@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { updatePost } from '../actions/postsAction';
+import { updatePost } from '../actions/postAction';
 import axios from 'axios';
-
+import '../styles/formStyle.css'
 
 class EditPost extends Component {
     state = {
         title: '',
         body: '',
-        userId: ' '
+        userId: ' ',
+        id: ' '
 
     }
     componentDidMount() {
@@ -19,38 +20,34 @@ class EditPost extends Component {
                 this.setState({
                     title: res.data.title,
                     body: res.data.body,
-                    userId: res.data.userId
+                    userId: res.data.userId,
+                    id: res.data.id
                 });
             });
     }
-    handleTextChange = (e) => this.setState({ [e.target.name]: e.target.value })
+
+    handleTextChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
+        console.log(this.state)
+    }
     handleOnSubmit = event => {
-        let id = this.props.match.params.post_id;
         event.preventDefault();
-        this.props.updatePost(this.state, id);
+        this.props.updatePost(this.state, this.state.id);
         console.log(this.state)
-        this.setState({
-            title: '',
-            body: '',
-        });
-        console.log(this.state)
-        // this.props.history.goBack()
+        this.props.history.goBack()
     }
 
     render() {
         return (
-            <div className="form-container">
+            <div className="form-conteiner">
+                <h2>Edit post</h2>
                 <form onSubmit={this.handleOnSubmit}>
+                    <input onChange={this.handleTextChange} value={this.state.title} type="text" name="title" placeholder="Title" />
+
+                    <textarea onChange={this.handleTextChange} value={this.state.body} name="body" placeholder="Body" rows='20' />
+
                     <div >
-                        <label>Title</label>
-                        <input onChange={this.handleTextChange} value={this.state.title} type="text" name="title" placeholder="Title" />
-                    </div>
-                    <div >
-                        <label>Body</label>
-                        <textarea onChange={this.handleTextChange} value={this.state.body} name="body" placeholder="Body" />
-                    </div>
-                    <div >
-                        <Link to={'/posts/userId=' + this.state.userId}><button type="submit">Update Post</button></Link>
+                        <button type="submit">Update Post</button>
                     </div>
                 </form>
             </div>
